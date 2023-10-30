@@ -82,18 +82,20 @@ public class Collections {
      * @return The student with the best grade in the map
      */
     public static String bestStudent(Map<String, Integer> students) {
-        HashMap<String, Integer> students = new HashMap<>();
+        String bestStudent = null;
+        int bestGrade = Integer.MIN_VALUE;
 
-        students.put("John Doe", 1);
-        students.put("Jane Smith", 2);
-        students.put("Alice Johnson", 3);
+        for (Map.Entry<String, Integer> entry : students.entrySet()) {
+            String studentName = entry.getKey();
+            int grade = entry.getValue();
 
-        // You can add more students or access them by name
-        String studentName = "John Doe";
-        if (students.containsKey(studentName)) {
-            int studentId = students.get(studentName);
-            System.out.println("Student Name: " + studentName + ", Student ID: " + studentId);
+            if (grade > bestGrade) {
+                bestStudent = studentName;
+                bestGrade = grade;
+            }
         }
-        return ""; // Replace with your code here
+
+        return bestStudent;
     }
+
 }
