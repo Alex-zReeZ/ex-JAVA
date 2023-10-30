@@ -1,7 +1,10 @@
 package ch.jobtrek;
 
+import java.sql.SQLData;
 import java.util.List;
 import java.util.Map;
+import java.util.ArrayList;
+
 
 public class Collections {
 
@@ -12,8 +15,32 @@ public class Collections {
      * of the size, and another with the stings longer than the size
      */
     public static List<List<String>> chunkArrayByStringSize(List<String> array, int size) {
-        return List.of(); // Replace with your code here
+        List<String> smallerOrEqual = new ArrayList<>();
+        List<String> larger = new ArrayList<>();
+
+        for (String str : array) {
+            if (str.length() <= size) {
+                smallerOrEqual.add(str);
+            } else {
+                larger.add(str);
+            }
+        }
+
+        List<List<String>> result = new ArrayList<>();
+        result.add(smallerOrEqual);
+        result.add(larger);
+
+        return result;
     }
+
+    public static void main(String[] args) {
+        List<String> input = List.of("apple", "banana", "cherry", "date", "elderberry");
+        int size = 5;
+
+        List<List<String>> result = chunkArrayByStringSize(input, size);
+    }
+
+
 
     /**
      * @param numbers A list of integers
