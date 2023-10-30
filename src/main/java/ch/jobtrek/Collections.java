@@ -1,9 +1,12 @@
 package ch.jobtrek;
 
 import java.sql.SQLData;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
+import java.util.HashMap;
 
 
 public class Collections {
@@ -47,17 +50,31 @@ public class Collections {
      * @return A list containing the integers of the original list, without
      * duplicates, sorted by frequency of occurrence
      */
-    public static List<Integer> frequencyOfApparition(List<Integer> numbers) {
-        return List.of(); // Replace with your code here
+
+    public static List<Integer> frequencyOfApparition(List<Integer> numbers)
+    {
+        return numbers.stream()
+                .collect(Collectors.groupingBy(Integer::intValue, Collectors.counting()))
+                .entrySet().stream()
+                .sorted(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
     }
+
 
     /**
      * @param numbers A list, containing list of numbers
      * @return The sum of all numbers, but all odd numbers should be multiplied before sum
      * Should return zero if there is no numbers
      */
-    public static Integer sumArrays(List<List<Integer>> numbers) {
-        return 3; // Replace with your code here
+    public static Integer sumArrays(List<List<Integer>> numbers)
+    {
+        int sum = numbers.stream()
+                .flatMap(List::stream)
+                .mapToInt(Integer::intValue)
+                .map(i -> i % 2 != 0 ? i * 2 : i)
+                .sum();
+        return sum;
     }
 
     /**
@@ -65,6 +82,18 @@ public class Collections {
      * @return The student with the best grade in the map
      */
     public static String bestStudent(Map<String, Integer> students) {
+        HashMap<String, Integer> students = new HashMap<>();
+
+        students.put("John Doe", 1);
+        students.put("Jane Smith", 2);
+        students.put("Alice Johnson", 3);
+
+        // You can add more students or access them by name
+        String studentName = "John Doe";
+        if (students.containsKey(studentName)) {
+            int studentId = students.get(studentName);
+            System.out.println("Student Name: " + studentName + ", Student ID: " + studentId);
+        }
         return ""; // Replace with your code here
     }
 }
