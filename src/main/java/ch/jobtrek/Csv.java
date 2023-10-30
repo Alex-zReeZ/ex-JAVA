@@ -9,9 +9,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
-
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class Csv {
@@ -38,34 +35,25 @@ public class Csv {
         }
     }
 
-    /**
-     * Sort the list of tunnels provided, and pick de 10 longest
-     *
-     * @param tunnels A List of tunnels
-     * @return A List containing only the 10 longest tunnels
-     */
+
     public static List<Tunnelable> tenLongestTunnels(List<Tunnelable> tunnels) {
-        // Sort the tunnels in descending order of length
-        Collections.sort(tunnels, (t1, t2) -> Integer.compare((int) t2.getKilometerLength(), (int) t1.getKilometerLength()));
 
-        // Create a new list to store the 10 longest tunnels
-        List<Tunnelable> longestTunnels = new ArrayList<>();
-
-        // Add the 10 longest tunnels to the new list
-        int count = Math.min(10, tunnels.size());
-        for (int i = 0; i < count; i++) {
-            longestTunnels.add(tunnels.get(i));
-        }
-
-        return longestTunnels;
+        return tunnels.stream()
+                .sorted(Comparator.comparing(Tunnelable::getKilometerLength))
+                .limit(10)
+                .collect(Collectors.toList());
     }
+
 
     /**
      * @param tunnels List of tunnels
      * @return The computed average of the length of all tunnels
      */
     public static double computeAverageLength(List<Tunnelable> tunnels) {
-        return 0; // Replace with your code here
+        return tunnels.stream()
+                .mapToDouble(Tunnelable::getKilometerLength)
+                .average()
+                .orElse(0.0);
     }
 
     /**
@@ -73,7 +61,12 @@ public class Csv {
      * @return A Map with the year as key and the number of tunnels as value
      */
     public static Map<Integer, Long> tunnelsByYears(List<Tunnelable> tunnels) {
-        return Map.of(); // Replace with your code here
+
+        return tunnels.stream()
+                .collect(Collectors.groupingBy(
+                        Tunnelable::getBuildYear,
+                        Collectors.counting()
+                ));
     }
 
     /**
@@ -81,7 +74,18 @@ public class Csv {
      * @return The year in which the most tunnels were built
      */
     public static int yearWithBiggestTunnelBuilds(List<Tunnelable> tunnels) {
-        return 0; // Replace with your code here
+        return tunnels.stream()
+                .collect(Collectors.collectingAndThen(
+                        Collectors.groupingBy(
+                                Tunnelable::getBuildYear,
+                                Collectors.counting()
+                        ),
+                        map -> map.entrySet().stream()
+                                .max(Map.Entry.comparingByValue())
+                                .map(Map.Entry::getKey)
+                                .orElse(0)
+                ));
     }
+
 
 }
