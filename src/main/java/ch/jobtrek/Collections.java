@@ -27,11 +27,7 @@ public class Collections {
             }
         }
 
-        List<List<String>> result = new ArrayList<>();
-        result.add(smallerOrEqual);
-        result.add(larger);
-
-        return result;
+        return List.of(smallerOrEqual, larger);
     }
 
 
