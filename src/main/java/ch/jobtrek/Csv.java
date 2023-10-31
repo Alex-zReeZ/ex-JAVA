@@ -39,7 +39,7 @@ public class Csv {
     public static List<Tunnelable> tenLongestTunnels(List<Tunnelable> tunnels) {
 
         return tunnels.stream()
-                .sorted(Comparator.comparing(Tunnelable::getKilometerLength))
+                .sorted(Comparator.comparing(Tunnelable::getKilometerLength).reversed())
                 .limit(10)
                 .collect(Collectors.toList());
     }
@@ -74,18 +74,10 @@ public class Csv {
      * @return The year in which the most tunnels were built
      */
     public static int yearWithBiggestTunnelBuilds(List<Tunnelable> tunnels) {
-        return tunnels.stream()
-                .collect(Collectors.collectingAndThen(
-                        Collectors.groupingBy(
-                                Tunnelable::getBuildYear,
-                                Collectors.counting()
-                        ),
-                        map -> map.entrySet().stream()
-                                .max(Map.Entry.comparingByValue())
-                                .map(Map.Entry::getKey)
-                                .orElse(0)
-                ));
+        return tunnelsByYears(tunnels)
+                .entrySet().stream()
+                .max(Map.Entry.comparingByValue())
+                .get().getKey();
+
     }
-
-
 }

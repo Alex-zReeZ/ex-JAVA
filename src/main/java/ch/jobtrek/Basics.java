@@ -1,5 +1,8 @@
 package ch.jobtrek;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 public class Basics {
 
     /**
@@ -23,23 +26,14 @@ public class Basics {
      * @return A string containing only words of maximum 4 characters and starting
      * with letter T. All words should be uppercase and separated by spaces
      */
+
     public static String strings(String text) {
-        String[] words = text.split(" ");
-        StringBuilder result = new StringBuilder();
-
-        for (String word : words) {
-            if (word.length() <= 4 && word.startsWith("T")) {
-                result.append(word.toUpperCase()).append(" ");
-            }
-        }
-
-        if (result.length() > 0) {
-            // Remove the trailing space
-            result.setLength(result.length() - 1);
-        }
-
-        return result.toString();
+        return Arrays.stream(text.split(" "))
+                .filter(word -> word.length() <= 4 && word.startsWith("T"))
+                .map(String::toUpperCase)
+                .collect(Collectors.joining(" "));
     }
+
 
 
     /**
@@ -52,7 +46,6 @@ public class Basics {
         if (haystack == null || haystack.isEmpty() || needle == null || needle.isEmpty()) {
             return haystack;
         }
-
         String result = haystack.replaceAll(needle, newWord);
         return result;
     }
