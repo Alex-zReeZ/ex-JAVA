@@ -10,10 +10,9 @@ public class Basics {
      * IF all numbers are even or number 1 superior to 10, return true
      * in all other cases, return false
      */
+
     public static boolean someConditionals(int number1, int number2) {
-        if (number1 % 2 == 0 || number2 % 2 == 0) {
-            return true;
-        } else if (number1 > 10) {
+        if (number1 % 2 == 0 || number2 % 2 == 0 || number1 > 10) {
             return true;
         } else {
             return false;
