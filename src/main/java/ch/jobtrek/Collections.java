@@ -34,12 +34,6 @@ public class Collections {
         return result;
     }
 
-    public static void main(String[] args) {
-        List<String> input = List.of("apple", "banana", "cherry", "date", "elderberry");
-        int size = 5;
-
-        List<List<String>> result = chunkArrayByStringSize(input, size);
-    }
 
 
 
