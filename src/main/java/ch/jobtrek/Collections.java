@@ -1,12 +1,10 @@
 package ch.jobtrek;
 
-import java.sql.SQLData;
-import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
-import java.util.HashMap;
 
 
 public class Collections {
@@ -82,20 +80,9 @@ public class Collections {
      * @return The student with the best grade in the map
      */
     public static String bestStudent(Map<String, Integer> students) {
-        String bestStudent = null;
-        int bestGrade = Integer.MIN_VALUE;
-
-        for (Map.Entry<String, Integer> entry : students.entrySet()) {
-            String studentName = entry.getKey();
-            int grade = entry.getValue();
-
-            if (grade > bestGrade) {
-                bestStudent = studentName;
-                bestGrade = grade;
-            }
-        }
-
-        return bestStudent;
+        return students
+                .entrySet().stream()
+                .max(Comparator.comparing(Map.Entry::getKey))
+                .get().getKey();
     }
-
-}
+    }
